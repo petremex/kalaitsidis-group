@@ -1,12 +1,10 @@
 backend:
   name: github
-  repo: petremex/kalaitsidis-group # CHANGE THIS: your GitHub username/repository name
-  branch: main # Change to 'master' if your repo uses master branch
-  base_url: https://api.netlify.com # Netlify's authentication endpoint
-  auth_endpoint: auth # Netlify handles OAuth
+  repo: petremex/kalaitsidis-group
+  branch: main
 
-media_folder: "photos/slideshow" # Where uploaded images will be stored
-public_folder: "/photos/slideshow" # Public path for images
+media_folder: "photos/slideshow"
+public_folder: "/photos/slideshow"
 
 locale: "el" # Greek interface
 
