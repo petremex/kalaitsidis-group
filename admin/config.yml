@@ -1,0 +1,87 @@
+backend:
+  name: github
+  repo: petremex/kalaitsidis-group # CHANGE THIS: your GitHub username/repository name
+  branch: main # Change to 'master' if your repo uses master branch
+  base_url: https://api.netlify.com # Netlify's authentication endpoint
+  auth_endpoint: auth # Netlify handles OAuth
+
+media_folder: "photos/slideshow" # Where uploaded images will be stored
+public_folder: "/photos/slideshow" # Public path for images
+
+locale: "el" # Greek interface
+
+collections:
+  # Hero Section
+  - name: "hero"
+    label: "Αρχική Σελίδα (Hero)"
+    folder: "_data/hero"
+    create: false
+    slug: "hero"
+    fields:
+      - {label: "Τίτλος", name: "title", widget: "string", default: "Kalaitsidis Group"}
+      - {label: "Υπότιτλος", name: "subtitle", widget: "string", default: "Κατασκευαστική Εταιρεία - Ποιότητα & Αξιοπιστία"}
+      - {label: "Κείμενο Κουμπιού", name: "button_text", widget: "string", default: "Επικοινωνήστε Μαζί Μας"}
+
+  # Services Section
+  - name: "services"
+    label: "Υπηρεσίες"
+    folder: "_data/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Τίτλος Υπηρεσίας", name: "title", widget: "string"}
+      - {label: "Περιγραφή", name: "description", widget: "text"}
+      - {label: "Εικονίδιο Font Awesome", name: "icon", widget: "select", options: ["fa-home", "fa-shield-alt", "fa-building", "fa-warehouse", "fa-tools", "fa-wrench", "fa-hammer", "fa-hard-hat", "fa-drafting-compass"]}
+      - {label: "Σειρά Εμφάνισης", name: "order", widget: "number", default: 1}
+
+  # Projects/Slideshow
+  - name: "projects"
+    label: "Έργα (Slideshow)"
+    folder: "_data/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Όνομα Έργου", name: "title", widget: "string"}
+      - {label: "Περιγραφή (Προαιρετικό)", name: "description", widget: "text", required: false}
+      - {label: "Φωτογραφία", name: "image", widget: "image"}
+      - {label: "Σειρά Εμφάνισης", name: "order", widget: "number", default: 1}
+
+  # Fleet Section
+  - name: "fleet"
+    label: "Στόλος"
+    folder: "_data/fleet"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Όνομα Εξοπλισμού", name: "title", widget: "string"}
+      - {label: "Περιγραφή", name: "description", widget: "text"}
+      - {label: "Εικονίδιο Font Awesome", name: "icon", widget: "select", options: ["fa-truck-moving", "fa-tractor", "fa-truck", "fa-car", "fa-bus", "fa-trailer"]}
+      - {label: "Σειρά Εμφάνισης", name: "order", widget: "number", default: 1}
+
+  # About Section
+  - name: "about"
+    label: "Σχετικά με Εμάς"
+    folder: "_data/about"
+    create: false
+    slug: "about"
+    fields:
+      - {label: "Τίτλος", name: "title", widget: "string", default: "Λίγα Λόγια Για Εμάς"}
+      - {label: "Κείμενο (Παράγραφος 1)", name: "paragraph1", widget: "text"}
+      - {label: "Κείμενο (Παράγραφος 2)", name: "paragraph2", widget: "text"}
+      - {label: "Κείμενο (Παράγραφος 3)", name: "paragraph3", widget: "text"}
+
+  # Contact Info
+  - name: "contact"
+    label: "Στοιχεία Επικοινωνίας"
+    folder: "_data/contact"
+    create: false
+    slug: "contact"
+    fields:
+      - {label: "Διεύθυνση", name: "address", widget: "text"}
+      - {label: "Τηλέφωνο 1", name: "phone1", widget: "string"}
+      - {label: "Τηλέφωνο 2", name: "phone2", widget: "string"}
+      - {label: "Email", name: "email", widget: "string"}
+      - {label: "Ωράριο", name: "hours", widget: "text"}
+      - {label: "Facebook URL", name: "facebook", widget: "string"}
+      - {label: "Instagram URL", name: "instagram", widget: "string"}
+      - {label: "TikTok URL", name: "tiktok", widget: "string"}

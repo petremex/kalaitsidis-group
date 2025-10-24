@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalaitsidis Group - Κατασκευαστική Εταιρεία</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="slideshow-images.js"></script>
+    <script src="cms-loader.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%232c3e50" width="1200" height="600"/><polygon fill="%233498db" points="0,600 400,200 800,400 1200,100 1200,600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+            transform: translateY(-3px);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        /* Services Section */
+        .services {
+            background: #f8f9fa;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        /* Projects Slideshow */
+        .projects {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            background: #34495e;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background-color: black;
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 2rem;
+            color: white;
+        }
+
+        .slide-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Navigation arrows */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            user-select: none;
+            transition: background 0.3s;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        /* Dots indicators */
+        .dots-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bdc3c7;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #f39c12;
+        }
+
+        /* Fleet Section */
+        .fleet {
+            background: #ecf0f1;
+        }
+
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .fleet-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .fleet-item i {
+            font-size: 4rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .fleet-item h3 {
+            font-size: 1.3rem;
+            color: #2c3e50;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #f39c12;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #f39c12;
+            width: 30px;
+        }
+
+        /* Social Media Links */
+        .social-media {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #f39c12;
+            transform: translateY(-5px);
+        }
+
+        .social-link i {
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a252f;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: #2c3e50;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">Kalaitsidis Group</div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Αρχική</a></li>
+                    <li><a href="#services">Υπηρεσίες</a></li>
+                    <li><a href="#projects">Έργα</a></li>
+                    <li><a href="#fleet">Στόλος</a></li>
+                    <li><a href="#about">Σχετικά</a></li>
+                    <li><a href="#contact">Επικοινωνία</a></li>
+                </ul>
+                <div class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Kalaitsidis Group</h1>
+            <p>Κατασκευαστική Εταιρεία - Ποιότητα & Αξιοπιστία</p>
+            <a href="#contact" class="cta-button">Επικοινωνήστε Μαζί Μας</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section services">
+        <div class="container">
+            <h2 class="section-title">Οι Υπηρεσίες Μας</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-home"></i>
+                    <h3>Στέγαστρα</h3>
+                    <p>Κατασκευή σύγχρονων και λειτουργικών στεγάστρων για κάθε ανάγκη. Προστασία από τα καιρικά φαινόμενα με στυλ και αντοχή.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Περιφράξεις</h3>
+                    <p>Ασφάλεια και ιδιωτικότητα με επαγγελματικές περιφράξεις. Μεταλλικές, ξύλινες ή συνδυαστικές λύσεις.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Γραφεία</h3>
+                    <p>Σχεδιασμός και κατασκευή σύγχρονων γραφειακών χώρων που ενισχύουν την παραγωγικότητα.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-warehouse"></i>
+                    <h3>Αποθήκες</h3>
+                    <p>Βιομηχανικές αποθήκες και χώροι αποθήκευσης με έμφαση στη λειτουργικότητα και την ασφάλεια.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>Ειδικές Κατασκευές</h3>
+                    <p>Προσαρμοσμένες λύσεις για μοναδικές ανάγκες. Από βιομηχανικές εγκαταστάσεις έως ειδικούς χώρους.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects">
+        <div class="container">
+            <h2 class="section-title">Τα Έργα Μας</h2>
+            <div class="slideshow-container" id="slideshowContainer">
+                <!-- Slides will be loaded dynamically -->
+                <!-- Navigation arrows -->
+                <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1)">&#10095;</button>
+            </div>
+            
+            <!-- Dots for navigation -->
+            <div class="dots-container" id="dotsContainer">
+                <!-- Dots will be generated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section id="fleet" class="section fleet">
+        <div class="container">
+            <h2 class="section-title">Ο Στόλος Μας</h2>
+            <div class="fleet-grid">
+                <div class="fleet-item">
+                    <i class="fas fa-truck-moving"></i>
+                    <h3>Γερανός</h3>
+                    <p>Σύγχρονος γερανός για ανυψώσεις μεγάλου βάρους</p>
+                </div>
+                <div class="fleet-item">
+                    <i class="fas fa-tractor"></i>
+                    <h3>Σκαπτικό</h3>
+                    <p>Εξοπλισμός εκσκαφών και χωματουργικών εργασιών</p>
+                </div>
+                <div class="fleet-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>Νταλίκα</h3>
+                    <p>Μεταφορά υλικών και εξοπλισμού</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2 class="section-title">Λίγα Λόγια Για Εμάς</h2>
+            <div class="about-content">
+                <p>Η <strong>Kalaitsidis Group</strong> δραστηριοποιείται στον τομέα των κατασκευών εδώ και πολλά χρόνια, προσφέροντας ολοκληρωμένες λύσεις σε κάθε είδους κατασκευαστικό έργο.</p>
+                
+                <p>Με έμφαση στην <strong>ποιότητα</strong>, την <strong>αξιοπιστία</strong> και τη <strong>γρήγορη εξυπηρέτηση</strong>, έχουμε κατακτήσει την εμπιστοσύνη εκατοντάδων πελατών σε όλη την Ελλάδα.</p>
+                
+                <p>Η ομάδα μας αποτελείται από έμπειρους μηχανικούς και τεχνίτες που συνδυάζουν την παράδοση με τις σύγχρονες τεχνολογίες, εξασφαλίζοντας έργα υψηλής ποιότητας που ξεπερνούν τις προσδοκίες.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Επικοινωνία</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Στοιχεία Επικοινωνίας</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Διεύθυνση Εταιρείας<br>Αθήνα, Ελλάδα</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+30 210 123 4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>+30 694 567 8901</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@kalaitsidisgroup.gr</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Δευτέρα - Παρασκευή: 08:00 - 18:00<br>Σάββατο: 09:00 - 15:00</span>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3>Ακολουθήστε Μας</h3>
+                    <div class="social-media">
+                        <a href="https://www.facebook.com/kalaitsidisgroup" target="_blank" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/kalaitsidisgroup" target="_blank" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@kalaitsidisgroup" target="_blank" class="social-link" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <h3>Γιατί να Μας Επιλέξετε</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Πολυετής εμπειρία στις κατασκευές</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Άριστη ποιότητα υλικών</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Τήρηση χρονοδιαγραμμάτων</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ανταγωνιστικές τιμές</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Εγγύηση σε όλα τα έργα</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Kalaitsidis Group. Όλα τα δικαιώματα διατηρούνται.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Slideshow functionality
+        let currentSlideIndex = 0;
+        let slides = [];
+        let dots = [];
+
+        // Initialize slideshow
+        function initSlideshow() {
+            if (!slideshowImages || slideshowImages.length === 0) {
+                console.warn('No images found. Please check slideshow-images.js');
+                return;
+            }
+            createSlideshow();
+        }
+
+        // Create slideshow elements
+        function createSlideshow() {
+            const slideshowContainer = document.getElementById('slideshowContainer');
+            const dotsContainer = document.getElementById('dotsContainer');
+            
+            // Clear existing content
+            const existingSlides = slideshowContainer.querySelectorAll('.slide');
+            existingSlides.forEach(slide => slide.remove());
+            dotsContainer.innerHTML = '';
+            
+            // Create slides and dots dynamically
+            slideshowImages.forEach((imageName, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = index === 0 ? 'slide active' : 'slide';
+                
+                const img = document.createElement('img');
+                img.src = `photos/slideshow/${imageName}`;
+                img.alt = imageName.replace(/\.[^/.]+$/, ''); // Remove file extension
+                
+                const slideContent = document.createElement('div');
+                slideContent.className = 'slide-content';
+                
+                const caption = document.createElement('h3');
+                caption.textContent = imageName.replace(/\.[^/.]+$/, ''); // Remove file extension
+                
+                slideContent.appendChild(caption);
+                slide.appendChild(img);
+                slide.appendChild(slideContent);
+                
+                // Insert before navigation buttons
+                const prevButton = slideshowContainer.querySelector('.prev');
+                slideshowContainer.insertBefore(slide, prevButton);
+                
+                // Create dot
+                const dot = document.createElement('span');
+                dot.className = index === 0 ? 'dot active' : 'dot';
+                dot.onclick = () => currentSlide(index + 1);
+                dotsContainer.appendChild(dot);
+            });
+            
+            // Update slides and dots references
+            slides = document.querySelectorAll('.slide');
+            dots = document.querySelectorAll('.dot');
+        }
+
+        function showSlide(index) {
+            if (slides.length === 0) return;
+            
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show current slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            if (slides.length === 0) return;
+            
+            currentSlideIndex += direction;
+            
+            if (currentSlideIndex >= slides.length) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = slides.length - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+        }
+
+        // Initialize slideshow on page load
+        document.addEventListener('DOMContentLoaded', initSlideshow);
+
+        // Auto-play slideshow
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'linear-gradient(135deg, #1a252f, #2980b9)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #2c3e50, #3498db)';
+            }
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe service cards and other elements
+        document.querySelectorAll('.service-card, .fleet-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
